@@ -1,0 +1,21 @@
+{
+    "name": "jorgealexandro/laravel-kendo-server-filters",
+    "description": "Laravel Kendo Server Filters",
+    "keywords": ["Laravel", "Kendo", "Server Filters"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jorge Alexandro Martinez Dominguez",
+            "email": "jorge.alexandro@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "jorgealexandro\\KendoFilters": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "nesbot/carbon": "~1.14"
+    }
+}
