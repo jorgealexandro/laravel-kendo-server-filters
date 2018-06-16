@@ -4,7 +4,6 @@ use Carbon\Carbon;
 
 Class Filters
 {
-
 	public static function processFilters($filters = [], $dateFields = [])
 	{
 		$processedFilters = [];
@@ -77,4 +76,20 @@ Class Filters
 		return $processedFilters;
 	}
 
+	public static function addFilters($query, $filters = [], $dateFields = []) {
+		$filters = Filters::processFilters($filters, $dateFields);
+		foreach ($filters as $filter) {
+			if(count(explode('.', $filter['field'])) > 1) {
+				$fieldDetail = explode('.', $filter['field']);
+				$query->whereHas($fieldDetail[0], function($query) use($fieldDetail, $filter) {
+					$query->where($fieldDetail[1], $filter['operator'], $filter['value']);
+				});
+			}
+			else {
+				$query->where($filter['field'], $filter['operator'], $filter['value']);
+			}
+		}
+
+		return $query;
+	}
 }
