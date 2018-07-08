@@ -82,11 +82,31 @@ Class Filters
 			if(count(explode('.', $filter['field'])) > 1) {
 				$fieldDetail = explode('.', $filter['field']);
 				$query->whereHas($fieldDetail[0], function($query) use($fieldDetail, $filter) {
-					$query->where($fieldDetail[1], $filter['operator'], $filter['value']);
+					if($filter['value'] == 'null') {
+						if($filter['operator'] == '=') {
+							$query->whereNull($fieldDetail[0]);
+						}
+						else {
+							$query->whereNotNull($fieldDetail[0]);
+						}
+					}
+					else {
+						$query->where($fieldDetail[1], $filter['operator'], $filter['value']);
+					}
 				});
 			}
 			else {
-				$query->where($filter['field'], $filter['operator'], $filter['value']);
+				if($filter['value'] == 'null') {
+					if($filter['operator'] == '=') {
+						$query->whereNull($filter['field']);
+					}
+					else {
+						$query->whereNotNull($filter['field']);
+					}
+				}
+				else {
+					$query->where($filter['field'], $filter['operator'], $filter['value']);
+				}
 			}
 		}
 
